@@ -1,6 +1,7 @@
 //Custom integration between our FMS (Versafleet) and Airtable
 //Allows users of Airtable to create Versafleet orders for Airtable data with a click of a button in Google Sheets
 //Records the tasks details in Google Sheets & also updates values in Airtable as feedback for the action
+//Return orders are done with essentially the same code with minor changes to certain variables and endpoints
 
 function CompilationD() {
   /*
