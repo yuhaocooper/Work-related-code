@@ -14,6 +14,11 @@ function doPost(e) {
   var shippingType = mydata['shipping_lines'][0]['title']
   var date = new Date()
   var day = date.getDay()
+  //Code to not have any duplicate webhook
+  //Check if the orderID or current webhook notification == the previous row's orderID. If yes, break the code.
+  if  (orderID == openSheet.getRange(openSheet.getLastRow(), 8).getValue()){
+    return
+  }
   //Delivery date setting for wow orders
   if (shippingType == wowType){
     if (day < 4 && day > 0 ){ //2 Scheduled days of deliveries. Wed or Fri. Thurs-Sun: Wed / Mon-Wed: Friday
