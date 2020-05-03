@@ -16,7 +16,7 @@ function doPost(e) {
   var day = date.getDay()
   //Code to not have any duplicate webhook
   //Check if the orderID or current webhook notification == the previous row's orderID. If yes, break the code.
-  if  (orderID == openSheet.getRange(openSheet.getLastRow(), 8).getValue()){
+  if  (orderId == openSheet.getRange(openSheet.getLastRow(), 8).getValue()){
     return
   }
   //Delivery date setting for wow orders
