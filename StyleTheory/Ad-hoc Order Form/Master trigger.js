@@ -51,3 +51,62 @@ function Master_Trigger() {
     
   };
 }
+
+//Creating the onFormSubmit trigger. Needs to only be done once to create the it.
+function trigger(){
+  var form = FormApp.openById('1hLcsq67m3-rTOZd0akrhhRg3ZIpHxKE_XY9T2LZ5Cq8') // Ad-hoc Google Form ID
+  ScriptApp.newTrigger('form_response_prod') //Triggers the "form_response_prod" function
+  .forForm(form)
+  .onFormSubmit()
+  .create();
+}
+
+function form_response_prod() {
+// Link to the form itself: https://docs.google.com/forms/d/1hLcsq67m3-rTOZd0akrhhRg3ZIpHxKE_XY9T2LZ5Cq8/edit
+  var form = FormApp.openById('1hLcsq67m3-rTOZd0akrhhRg3ZIpHxKE_XY9T2LZ5Cq8')
+//Step 1: Upload the data into the database
+  var formResponses = form.getResponses();
+//Get the latest response
+  var formResponse = formResponses[formResponses.length-1];
+  var itemResponses = formResponse.getItemResponses();
+  var answers = [] //blank array to store all the itemResponses
+  for (var i = 0; i < itemResponses.length; i++) {
+    var itemResponse = itemResponses[i];
+//Store all these values in the 'answer' array through the looping of all the responses in the form     
+    answers.push(itemResponse.getResponse())
+  }
+  Logger.log(answers)
+  
+//Match the responses to the respective fields in the 'Consignors Master Details' Sheet
+  var Jobtype = answers[0]
+  var Name = answers[1]
+  var Contact = answers[2]
+  var Email = answers[3]
+  var Address = answers[4]
+  var UnitNum = answers[5]
+  var Postal = answers[6]
+  var Date = answers[7]
+  var Timeslot = answers[8]
+  var Tags = answers[9]
+  var Notes = answers[10]
+    
+//Getting lastrow based on the 'Address' columns. Counts the number of non-empty cells in the column.
+  var Avals = sheet.getRange("E1:E").getValues();
+  var Alast = Avals.filter(String).length;
+  var Lrow = Alast + 1 
+  
+//Putting the form responses in the "WOW" sheet
+
+  sheet.getRange(Lrow, 1).setValue(Jobtype)
+  sheet.getRange(Lrow, 2).setValue(Name)
+  sheet.getRange(Lrow, 3).setValue(Contact)
+  sheet.getRange(Lrow, 4).setValue(Email)
+  sheet.getRange(Lrow, 5).setValue(Address)
+  sheet.getRange(Lrow, 6).setValue(UnitNum)
+  sheet.getRange(Lrow, 7).setValue(Postal)
+  sheet.getRange(Lrow, 8).setValue(Date)
+  sheet.getRange(Lrow, 9).setValue(Timeslot)
+  sheet.getRange(Lrow, 10).setValue(Tags)
+  sheet.getRange(Lrow, 11).setValue(Notes)
+  
+  }
